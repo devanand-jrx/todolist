@@ -16,17 +16,20 @@ import java.util.stream.Collectors;
 @Service
 public class TaskService {
     private final TaskRepository taskRepository;
+
     @Autowired
     public TaskService(TaskRepository taskRepository) {
         this.taskRepository = taskRepository;
     }
-    public List<TaskResponse> getAllTasks(){
+
+    public List<TaskResponse> getAllTasks() {
         List<Task> tasks = taskRepository.findAll();
         return tasks.stream()
                 .map(this::convertToTaskResponse)
                 .collect(Collectors.toList());
     }
-    public TaskResponse getTaskById(int id){
+
+    public TaskResponse getTaskById(int id) {
         Task task = taskRepository.findById(id)
                 .orElseThrow(() -> new TaskNotFoundException("Task not found with id: " + id));
         return convertToTaskResponse(task);
@@ -36,7 +39,6 @@ public class TaskService {
         Task createdTask = taskRepository.save(task);
         return convertToTaskResponse(createdTask);
     }
-
 
 
     public TaskResponse updateTask(int id, Task updatedTask) {
