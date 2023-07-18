@@ -14,6 +14,8 @@ import java.time.LocalDate;
 @Setter
 @Getter
 @ToString
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name="Task")
 public class Task {
 

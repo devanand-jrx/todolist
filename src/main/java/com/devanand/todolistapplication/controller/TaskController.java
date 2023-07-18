@@ -49,27 +49,3 @@ public class TaskController {
         taskService.deleteTask(id);
     }
 }
-
-//    @GetMapping("/getTaskById/{id}")
-//    public ResponseEntity<TaskResponse> getTaskById(@PathVariable int id) {
-//        TaskResponse task = taskService.getTaskById(id);
-//        return ResponseEntity.ok(task);
-//    }
-//    @PostMapping("/createTask")
-//    public ResponseEntity<TaskResponse> createTask(@RequestBody Task task) {
-//        TaskResponse createdTask = taskService.createTask(task);
-//        return ResponseEntity.status(HttpStatus.CREATED).body(createdTask);
-//    }
-//    @PutMapping("/updateTask/{id}")
-//    public ResponseEntity<TaskResponse> updateTask(@PathVariable int id, @RequestBody Task task) {
-//        TaskResponse updatedTask = taskService.updateTask(id, task);
-//        return ResponseEntity.ok(updatedTask);
-//    }
-//    @DeleteMapping("/deleteTask/{id}")
-//    public ResponseEntity<Void> deleteTask(@PathVariable int id) {
-//        taskService.deleteTask(id);
-//        return ResponseEntity.noContent().build();
-//    }
-
-
-//}
