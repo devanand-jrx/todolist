@@ -1,13 +1,12 @@
 package com.devanand.todolistapplication.model;
 
-import ch.qos.logback.core.status.Status;
-
-
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.util.Date;
+
 
 
 @Data
@@ -21,8 +20,18 @@ public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
     private int id;
+
+    @NotNull
+    @Size(min=3, max=25)
     private String name;
+
+    @NotNull
+    @Size(min=1, message="Description must not be empty")
     private String description;
-    private String status;
-    private Date dueDate;
+
+
+    @Enumerated(EnumType.STRING)
+    private Status status;
+
+    private LocalDate dueDate;
 }

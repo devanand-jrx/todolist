@@ -3,6 +3,7 @@ package com.devanand.todolistapplication.service;
 
 import com.devanand.todolistapplication.contract.TaskResponse;
 import com.devanand.todolistapplication.exception.TaskNotFoundException;
+import com.devanand.todolistapplication.model.Status;
 import com.devanand.todolistapplication.model.Task;
 import com.devanand.todolistapplication.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,10 +31,13 @@ public class TaskService {
                 .orElseThrow(() -> new TaskNotFoundException("Task not found with id: " + id));
         return convertToTaskResponse(task);
     }
+
     public TaskResponse createTask(Task task) {
         Task createdTask = taskRepository.save(task);
         return convertToTaskResponse(createdTask);
     }
+
+
 
     public TaskResponse updateTask(int id, Task updatedTask) {
         Task existingTask = taskRepository.findById(id)
@@ -42,6 +46,7 @@ public class TaskService {
         Task savedTask = taskRepository.save(updatedTask);
         return convertToTaskResponse(savedTask);
     }
+
 
     public void deleteTask(int id) {
         taskRepository.deleteById(id);
