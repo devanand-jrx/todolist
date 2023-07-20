@@ -3,9 +3,9 @@ package com.devanand.todolistapplication.service;
 
 import com.devanand.todolistapplication.contract.TaskResponse;
 import com.devanand.todolistapplication.exception.TaskNotFoundException;
-import com.devanand.todolistapplication.model.Status;
 import com.devanand.todolistapplication.model.Task;
 import com.devanand.todolistapplication.repository.TaskRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,16 +16,20 @@ import java.util.stream.Collectors;
 @Service
 public class TaskService {
     private final TaskRepository taskRepository;
+    private final ModelMapper modelMapper;
+
 
     @Autowired
-    public TaskService(TaskRepository taskRepository) {
+    public TaskService(TaskRepository taskRepository, ModelMapper modelMapper) {
         this.taskRepository = taskRepository;
+        this.modelMapper = modelMapper;
+
     }
 
     public List<TaskResponse> getAllTasks() {
         List<Task> tasks = taskRepository.findAll();
         return tasks.stream()
-                .map(this::convertToTaskResponse)
+                .map(task -> modelMapper.map(task, TaskResponse.class))
                 .collect(Collectors.toList());
     }
 
@@ -55,13 +59,7 @@ public class TaskService {
     }
 
     private TaskResponse convertToTaskResponse(Task task) {
-        return TaskResponse.builder()
-                .id(task.getId())
-                .name(task.getName())
-                .description(task.getDescription())
-                .status(task.getStatus())
-                .dueDate(task.getDueDate())
-                .build();
+        return modelMapper.map(task, TaskResponse.class);
     }
 
 }

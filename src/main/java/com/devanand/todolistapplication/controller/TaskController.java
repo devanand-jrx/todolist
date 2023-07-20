@@ -5,6 +5,7 @@ import com.devanand.todolistapplication.contract.TaskResponse;
 import com.devanand.todolistapplication.model.Task;
 import com.devanand.todolistapplication.service.TaskService;
 //import lombok.AllArgsConstructor;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,8 +26,8 @@ public class TaskController {
     }
 
     @GetMapping("/getAllTasks")
-    public List<TaskResponse> getAllTasks() {
-        return taskService.getAllTasks();
+    public ResponseEntity<List<TaskResponse>> getAllTasks() {
+        return new ResponseEntity<>(taskService.getAllTasks(), HttpStatus.OK);
     }
 
     @GetMapping("/getTaskById/{id}")
@@ -35,12 +36,13 @@ public class TaskController {
     }
 
     @PostMapping("/createTask")
-    public TaskResponse createTask(@RequestBody Task task) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public TaskResponse createTask(@RequestBody @Valid Task task) {
         return taskService.createTask(task);
     }
 
     @PutMapping("/updateTask/{id}")
-    public TaskResponse updateTask(@PathVariable int id, @RequestBody Task updatedTask) {
+    public TaskResponse updateTask(@PathVariable int id, @RequestBody @Valid Task updatedTask) {
         return taskService.updateTask(id, updatedTask);
     }
 
