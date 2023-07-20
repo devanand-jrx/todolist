@@ -4,7 +4,6 @@ package com.devanand.todolistapplication.controller;
 import com.devanand.todolistapplication.contract.TaskResponse;
 import com.devanand.todolistapplication.model.Task;
 import com.devanand.todolistapplication.service.TaskService;
-//import lombok.AllArgsConstructor;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-//import java.util.Optional;
 
 
 @RestController
@@ -31,23 +29,24 @@ public class TaskController {
     }
 
     @GetMapping("/getTaskById/{id}")
-    public TaskResponse getTaskById(@PathVariable int id) {
-        return taskService.getTaskById(id);
-    }
+    public ResponseEntity<TaskResponse> getTaskById(@PathVariable int id) {
+        return new ResponseEntity<>(taskService.getTaskById(id), HttpStatus.OK);    }
 
     @PostMapping("/createTask")
-    @ResponseStatus(HttpStatus.CREATED)
-    public TaskResponse createTask(@RequestBody @Valid Task task) {
-        return taskService.createTask(task);
-    }
+    public ResponseEntity<TaskResponse> createTask(@RequestBody TaskResponse task) {
+        TaskResponse taskResponse = taskService.createTask(task);
+        return new ResponseEntity<>(taskResponse, HttpStatus.CREATED);    }
 
-    @PutMapping("/updateTask/{id}")
-    public TaskResponse updateTask(@PathVariable int id, @RequestBody @Valid Task updatedTask) {
-        return taskService.updateTask(id, updatedTask);
+    @PutMapping("/{id}")
+    public ResponseEntity<TaskResponse> updateTask(@PathVariable int id,@Valid @RequestBody TaskResponse task) {
+        TaskResponse updatedTask = taskService.updateTask(id, task);
+        return new ResponseEntity<>(updatedTask, HttpStatus.OK);
     }
 
     @DeleteMapping("/deleteTask/{id}")
-    public void deleteTask(@PathVariable int id) {
+    public ResponseEntity<String> deleteTask(@PathVariable int id) {
         taskService.deleteTask(id);
+        return ResponseEntity.ok("Task with ID " + id + " has been deleted");
+
     }
 }

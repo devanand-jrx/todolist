@@ -5,6 +5,8 @@ import com.devanand.todolistapplication.contract.TaskResponse;
 import com.devanand.todolistapplication.exception.TaskNotFoundException;
 import com.devanand.todolistapplication.model.Task;
 import com.devanand.todolistapplication.repository.TaskRepository;
+import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +16,7 @@ import java.util.stream.Collectors;
 
 
 @Service
+@Slf4j
 public class TaskService {
     private final TaskRepository taskRepository;
     private final ModelMapper modelMapper;
@@ -33,33 +36,38 @@ public class TaskService {
                 .collect(Collectors.toList());
     }
 
-    public TaskResponse getTaskById(int id) {
-        Task task = taskRepository.findById(id)
-                .orElseThrow(() -> new TaskNotFoundException("Task not found with id: " + id));
-        return convertToTaskResponse(task);
+    public TaskResponse getTaskById(int id){
+        Task task = this.taskRepository.findById(id)
+                .orElseThrow(() -> {
+                    log.error("Book with id: {} not found", id);
+                    return new TaskNotFoundException(id);
+                });
+        return modelMapper.map(task, TaskResponse.class);
     }
 
-    public TaskResponse createTask(Task task) {
-        Task createdTask = taskRepository.save(task);
-        return convertToTaskResponse(createdTask);
+    public TaskResponse createTask(TaskResponse task) {
+        Task createdTask = taskRepository.save(modelMapper.map(task, Task.class));
+        return modelMapper.map(createdTask, TaskResponse.class);
     }
 
 
-    public TaskResponse updateTask(int id, Task updatedTask) {
+    public TaskResponse updateTask(int id, TaskResponse task) {
         Task existingTask = taskRepository.findById(id)
-                .orElseThrow(() -> new TaskNotFoundException("Task not found with id: " + id));
-        updatedTask.setId(existingTask.getId());
-        Task savedTask = taskRepository.save(updatedTask);
-        return convertToTaskResponse(savedTask);
+                .orElseThrow(() -> {
+                    log.error("Task with id: {} not found", id);
+                    return new TaskNotFoundException(id);
+                });
+        modelMapper.map(task, existingTask);
+        Task updatedTask = taskRepository.save(existingTask);
+        return modelMapper.map(updatedTask, TaskResponse.class);
     }
 
 
     public void deleteTask(int id) {
+        if (!taskRepository.existsById(id)) {
+            throw new TaskNotFoundException(id);
+        }
         taskRepository.deleteById(id);
-    }
-
-    private TaskResponse convertToTaskResponse(Task task) {
-        return modelMapper.map(task, TaskResponse.class);
     }
 
 }
