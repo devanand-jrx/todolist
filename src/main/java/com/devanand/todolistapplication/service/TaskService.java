@@ -36,7 +36,7 @@ public class TaskService {
                 .collect(Collectors.toList());
     }
 
-    public TaskResponse getTaskById(int id){
+    public TaskResponse getTaskById(int id) {
         Task task = this.taskRepository.findById(id)
                 .orElseThrow(() -> {
                     log.error("Book with id: {} not found", id);
