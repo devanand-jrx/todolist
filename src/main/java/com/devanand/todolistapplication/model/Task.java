@@ -8,13 +8,13 @@ import java.time.LocalDate;
 
 @Data
 @Entity
-@Table(name = "Task")
+@Table(name = "task")
 @NoArgsConstructor
 @AllArgsConstructor
 public class Task {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.TABLE)
     private int id;
 
     private String name;
