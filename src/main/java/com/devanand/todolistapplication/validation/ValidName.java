@@ -2,7 +2,6 @@ package com.devanand.todolistapplication.validation;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
-
 import java.lang.annotation.*;
 
 @Target({ElementType.FIELD})
@@ -17,4 +16,3 @@ public @interface ValidName {
 
     Class<? extends Payload>[] payload() default {};
 }
-

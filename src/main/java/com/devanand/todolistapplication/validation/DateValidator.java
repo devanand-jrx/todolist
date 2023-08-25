@@ -2,7 +2,6 @@ package com.devanand.todolistapplication.validation;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-
 import java.time.LocalDate;
 
 public class DateValidator implements ConstraintValidator<ValidDate, LocalDate> {
@@ -16,4 +15,3 @@ public class DateValidator implements ConstraintValidator<ValidDate, LocalDate> 
         return date.isAfter(currentDate);
     }
 }
-

@@ -21,6 +21,4 @@ public class TodoListApplication {
                 .setFieldAccessLevel(Configuration.AccessLevel.PRIVATE);
         return mapper;
     }
-
-
 }

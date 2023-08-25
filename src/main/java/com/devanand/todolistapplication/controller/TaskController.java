@@ -1,20 +1,16 @@
 package com.devanand.todolistapplication.controller;
 
-
 import com.devanand.todolistapplication.contract.TaskResponse;
-import com.devanand.todolistapplication.model.Task;
 import com.devanand.todolistapplication.service.TaskService;
 import jakarta.validation.Valid;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
-
 @RestController
-@RequestMapping("/tasks")
+@RequestMapping("")
 public class TaskController {
     private final TaskService taskService;
 
@@ -34,13 +30,14 @@ public class TaskController {
     }
 
     @PostMapping("/createTask")
-    public ResponseEntity<TaskResponse> createTask(@RequestBody TaskResponse task) {
+    public ResponseEntity<TaskResponse> createTask(@Valid @RequestBody TaskResponse task) {
         TaskResponse taskResponse = taskService.createTask(task);
         return new ResponseEntity<>(taskResponse, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<TaskResponse> updateTask(@PathVariable int id, @Valid @RequestBody TaskResponse task) {
+    public ResponseEntity<TaskResponse> updateTask(
+            @PathVariable int id, @Valid @RequestBody TaskResponse task) {
         TaskResponse updatedTask = taskService.updateTask(id, task);
         return new ResponseEntity<>(updatedTask, HttpStatus.OK);
     }
@@ -49,6 +46,5 @@ public class TaskController {
     public ResponseEntity<String> deleteTask(@PathVariable int id) {
         taskService.deleteTask(id);
         return ResponseEntity.ok("Task with ID " + id + " has been deleted");
-
     }
 }

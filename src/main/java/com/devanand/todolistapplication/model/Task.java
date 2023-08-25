@@ -1,10 +1,10 @@
 package com.devanand.todolistapplication.model;
 
-
 import jakarta.persistence.*;
-import lombok.*;
 
 import java.time.LocalDate;
+
+import lombok.*;
 
 @Getter
 @Entity
@@ -23,6 +23,4 @@ public class Task {
     private String status;
 
     private LocalDate dueDate;
-
-
 }
