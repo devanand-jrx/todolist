@@ -1,9 +1,7 @@
 package com.devanand.todolistapplication.contract;
 
-import ch.qos.logback.core.status.Status;
 import com.devanand.todolistapplication.validation.ValidDate;
 import com.devanand.todolistapplication.validation.ValidName;
-import com.devanand.todolistapplication.validation.ValidStatus;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import java.time.LocalDate;
@@ -23,7 +21,6 @@ public class TaskResponse {
     private String description;
 
     @Enumerated(EnumType.STRING)
-    @ValidStatus
     private Status status;
 
     @ValidDate private LocalDate dueDate;

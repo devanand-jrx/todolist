@@ -30,14 +30,14 @@ public class TaskController {
     }
 
     @PostMapping("/createTask")
-    public ResponseEntity<TaskResponse> createTask(@Valid @RequestBody TaskResponse task) {
+    public ResponseEntity<TaskResponse> createTask(@RequestBody TaskResponse task) {
         TaskResponse taskResponse = taskService.createTask(task);
         return new ResponseEntity<>(taskResponse, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<TaskResponse> updateTask(
-            @PathVariable int id, @Valid @RequestBody TaskResponse task) {
+            @PathVariable int id, @RequestBody TaskResponse task) {
         TaskResponse updatedTask = taskService.updateTask(id, task);
         return new ResponseEntity<>(updatedTask, HttpStatus.OK);
     }
